@@ -103,43 +103,53 @@ document.addEventListener('DOMContentLoaded', () => {
     function createCard(data) {
         const card = document.createElement('div');
         card.className = 'card';
-        
+    
         const img = document.createElement('img');
         img.src = data.primaryImage || defaultImage;
         img.alt = data.title || 'Sin título';
-        
+    
         const cardContent = document.createElement('div');
         cardContent.className = 'card-content';
-        
+    
         const title = document.createElement('h3');
-        title.textContent = data.title && data.title !== 'Desconocido' ? data.title : 'Sin título'; // Mejor manejo del campo title
-        console.log('Título asignado al elemento:', title.textContent);  // Log para depuración
-        
+        title.textContent = data.title && data.title !== 'Desconocido' ? data.title : 'Sin título';
+        console.log('Título asignado al elemento:', title.textContent);
+    
         const artist = document.createElement('p');
         artist.textContent = `Artista: ${data.artistDisplayName || 'Desconocido'}`;
-        
+    
         const culture = document.createElement('p');
         culture.textContent = `Cultura: ${data.culture || 'Desconocida'}`;
-        
+    
         const dynasty = document.createElement('p');
         dynasty.textContent = `Dinastía: ${data.dynasty || 'Desconocida'}`;
     
-        const date = document.createElement('p');
-        date.textContent = `Fecha: ${data.objectDate || 'Desconocida'}`;
-        date.className = 'object-date';
-        date.style.display = 'none';
-            
+        // Aquí se añade el contenedor para la fecha
+        const dateContainer = document.createElement('div');
+        dateContainer.textContent = `Fecha: ${data.objectDate || 'Desconocida'}`;
+        dateContainer.className = 'object-date';
+        dateContainer.style.display = 'none'; // Ocultamos por defecto
+    
+        // Añadimos un evento para mostrar la fecha al pasar el mouse
+        card.addEventListener('mouseenter', () => {
+            dateContainer.style.display = 'block';
+        });
+        card.addEventListener('mouseleave', () => {
+            dateContainer.style.display = 'none';
+        });
+    
         cardContent.appendChild(title);
         cardContent.appendChild(artist);
         cardContent.appendChild(culture);
         cardContent.appendChild(dynasty);
-        cardContent.appendChild(date);
-            
+        cardContent.appendChild(dateContainer); // Añadimos el contenedor de fecha
+    
         card.appendChild(img);
-        card.appendChild(cardContent);    
-
+        card.appendChild(cardContent);
+    
         return card;
     }
+    
 
     function updatePagination() {
         if (totalItems > itemsPerPage) {
