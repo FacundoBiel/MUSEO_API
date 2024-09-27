@@ -103,33 +103,33 @@ document.addEventListener('DOMContentLoaded', () => {
     function createCard(data) {
         const card = document.createElement('div');
         card.className = 'card';
-    
+      
         const img = document.createElement('img');
         img.src = data.primaryImage || defaultImage;
         img.alt = data.title || 'Sin título';
-    
+      
         const cardContent = document.createElement('div');
         cardContent.className = 'card-content';
-    
+      
         const title = document.createElement('h3');
         title.textContent = data.title && data.title !== 'Desconocido' ? data.title : 'Sin título';
         console.log('Título asignado al elemento:', title.textContent);
-    
+      
         const artist = document.createElement('p');
         artist.textContent = `Artista: ${data.artistDisplayName || 'Desconocido'}`;
-    
+      
         const culture = document.createElement('p');
         culture.textContent = `Cultura: ${data.culture || 'Desconocida'}`;
-    
+      
         const dynasty = document.createElement('p');
         dynasty.textContent = `Dinastía: ${data.dynasty || 'Desconocida'}`;
-    
+      
         // Aquí se añade el contenedor para la fecha
         const dateContainer = document.createElement('div');
         dateContainer.textContent = `Fecha: ${data.objectDate || 'Desconocida'}`;
         dateContainer.className = 'object-date';
         dateContainer.style.display = 'none'; // Ocultamos por defecto
-    
+      
         // Añadimos un evento para mostrar la fecha al pasar el mouse
         card.addEventListener('mouseenter', () => {
             dateContainer.style.display = 'block';
@@ -137,19 +137,52 @@ document.addEventListener('DOMContentLoaded', () => {
         card.addEventListener('mouseleave', () => {
             dateContainer.style.display = 'none';
         });
-    
+      
         cardContent.appendChild(title);
         cardContent.appendChild(artist);
         cardContent.appendChild(culture);
         cardContent.appendChild(dynasty);
         cardContent.appendChild(dateContainer); // Añadimos el contenedor de fecha
-    
+      
+        // Solo agrega el botón si hay imágenes adicionales
+        if (data.additionalImages && data.additionalImages.length > 0) {
+            const additionalImagesButton = document.createElement('button');
+            additionalImagesButton.textContent = 'Ver Imágenes Adicionales';
+            additionalImagesButton.onclick = function() {
+                showAdditionalImages(data);
+            };
+            cardContent.appendChild(additionalImagesButton);
+        }
+      
         card.appendChild(img);
         card.appendChild(cardContent);
-    
+      
         return card;
     }
     
+    async function showAdditionalImages(data) {
+        const additionalImagesContainer = document.getElementById('additional-images');
+        additionalImagesContainer.innerHTML = '';
+
+        if (data.additionalImages && data.additionalImages.length > 0) {
+            for (let imgUrl of data.additionalImages) {
+                const img = document.createElement('img');
+                img.src = imgUrl;
+                img.alt = 'Imagen Adicional';
+                img.style.width = '100%';
+                img.style.marginBottom = '10px';
+                additionalImagesContainer.appendChild(img);
+            }
+        } else {
+            additionalImagesContainer.innerHTML = '<p>No hay imágenes adicionales disponibles.</p>';
+        }
+
+        document.getElementById('modal').style.display = 'block';
+    }
+
+    window.closeModal = function() {
+        document.getElementById('modal').style.display = 'none';
+    }
 
     function updatePagination() {
         if (totalItems > itemsPerPage) {
