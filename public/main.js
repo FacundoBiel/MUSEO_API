@@ -124,13 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const dynasty = document.createElement('p');
         dynasty.textContent = `Dinastía: ${data.dynasty || 'Desconocida'}`;
       
-        // Aquí se añade el contenedor para la fecha
         const dateContainer = document.createElement('div');
         dateContainer.textContent = `Fecha: ${data.objectDate || 'Desconocida'}`;
         dateContainer.className = 'object-date';
-        dateContainer.style.display = 'none'; // Ocultamos por defecto
+        dateContainer.style.display = 'none';
       
-        // Añadimos un evento para mostrar la fecha al pasar el mouse
         card.addEventListener('mouseenter', () => {
             dateContainer.style.display = 'block';
         });
@@ -142,9 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
         cardContent.appendChild(artist);
         cardContent.appendChild(culture);
         cardContent.appendChild(dynasty);
-        cardContent.appendChild(dateContainer); // Añadimos el contenedor de fecha
-      
-        // Solo agrega el botón si hay imágenes adicionales
+        cardContent.appendChild(dateContainer);
+
         if (data.additionalImages && data.additionalImages.length > 0) {
             const additionalImagesButton = document.createElement('button');
             additionalImagesButton.textContent = 'Ver Imágenes Adicionales';

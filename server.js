@@ -45,7 +45,6 @@ app.get('/object/:id', async (req, res) => {
         const response = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${req.params.id}`);
         const data = await response.json();
         
-        // Verificar si el título existe o está vacío, si es así asignar "Sin título"
         if (!data.title || data.title.trim() === "") {
             data.title = "Sin título";
         }
@@ -95,7 +94,7 @@ const translateText = async (text, targetLang) => {
                 resolve(result.translation);
             } else {
                 console.error('Error en la traducción:', result?.error || 'Respuesta inválida');
-                resolve(text); // En caso de error, devolver el texto original
+                resolve(text);
             }
         });
     });
